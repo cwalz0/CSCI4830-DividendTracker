@@ -35,5 +35,11 @@ class Holding(models.Model):
     class Meta:
         unique_together = ('user', 'ticker')
 
+    @property
+    def annual_income(self):
+        if self.market_data and self.market_data.dividend_per_share:
+            return self.shares_amnt * self.market_data.dividend_per_share
+        return 0
+
     def __str__(self):
         return f"{self.user.username} - {self.shares_amnt}x {self.ticker}"

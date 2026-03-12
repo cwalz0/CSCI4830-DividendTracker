@@ -1,6 +1,5 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User # temp
-#from django.contrib.auth.decorators import login_required
 from .models import Holding, DividendData
 from .forms import HoldingForm
 import yfinance as yf
@@ -8,11 +7,6 @@ from decimal import Decimal
 
 # Create your views here.
 
-#login_required only allows viewing if logged in
-#otherwise, redirects to the login page
-
-# temporarily removing login for due date
-# @login_required
 def dashboard(request):
     #just grabbing first user for due date
     #user_holdings = Holding.objects.filter(user=request.user)

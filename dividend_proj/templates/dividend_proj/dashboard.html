@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dividend Tracker Dashboard</title>
+    
 </head>
 <body>
         <h1>My Portfolio</h1>
@@ -24,7 +25,7 @@
                     <th>Dividend Reinvestment Plan (DRIP) Active</th>
                     <th>Dividend / Share</th>
                     <th>Dividend Yield</th>
-                    <th></th>
+                    <th>Estimated Annual Income</th>
                 </tr>
             </thead>
             <tbody>
@@ -33,12 +34,14 @@
                     <td>{{ holding.ticker }}</td>
                     <td>{{ holding.shares_amnt }}</td>
                     <td>{{ holding.auto_reinvest }}</td>
-                    <td>{{ holding.market_data.dividend_per_share }}</td>
-                    <td>{{ holding.market_data.dividend_yield }}</td>
+                    <td>${{ holding.market_data.dividend_per_share }}</td>
+                    <td>{{ holding.market_data.dividend_yield|floatformat:2|default:"0.00" }}</td>
+
+                    <td>${{ holding.annual_income|floatformat:2 }}</td>
                 </tr>
                 {% empty %}
                 <tr>
-                    <td colspan="4">No holdings yet.</td>
+                    <td colspan="6">No holdings yet.</td>
                 </tr>
                 {% endfor %}
             </tbody>
