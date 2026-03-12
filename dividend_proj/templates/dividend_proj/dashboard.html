@@ -8,12 +8,21 @@
 <body>
         <h1>My Portfolio</h1>
 
-        <table border="1">
+        <h2>Add a new Holding</h2>
+
+        <form method ="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+
+            <button type="submit">Add Stock</button>
+        </form>
+        <hr> <table border="1">
             <thead>
                 <tr>
                     <th>Ticker</th>
                     <th>Shares</th>
                     <th>Dividend Reinvestment Plan (DRIP) Active</th>
+                    <th>Dividend / Share</th>
                     <th>Dividend Yield</th>
                     <th></th>
                 </tr>
@@ -22,13 +31,14 @@
                 {% for holding in holdings %}
                 <tr>
                     <td>{{ holding.ticker }}</td>
-                    <td>{{ holding.shares }}</td>
+                    <td>{{ holding.shares_amnt }}</td>
                     <td>{{ holding.auto_reinvest }}</td>
-                    <td>{{ market_data.dividend_yield }}</td>
+                    <td>{{ holding.market_data.dividend_per_share }}</td>
+                    <td>{{ holding.market_data.dividend_yield }}</td>
                 </tr>
                 {% empty %}
                 <tr>
-                    <td colspan="3">No holdings yet.</td>
+                    <td colspan="4">No holdings yet.</td>
                 </tr>
                 {% endfor %}
             </tbody>

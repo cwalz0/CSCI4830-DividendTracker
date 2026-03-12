@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 # Create your models here.
 
 class DividendData(models.Model):
-    #local cache for 3rd party api
+    #local storage for 3rd party api
     #update after 24hrs
     ticker = models.CharField(max_length=10)
     dividend_yield = models.DecimalField(max_digits=7, decimal_places=4, null=True, blank=True)
@@ -25,10 +25,10 @@ class Holding(models.Model):
     ticker = models.CharField(max_length=10)
 
     # decimalfield instead of float to avoid rounding errors
-    shares = models.DecimalField(max_digits=15, decimal_places=4)
+    shares_amnt = models.DecimalField(max_digits=15, decimal_places=4)
     auto_reinvest = models.BooleanField(default=False)
 
-    #link user's holding to cached api
+    #link user's holding to stored api data
     market_data = models.ForeignKey(DividendData, on_delete=models.SET_NULL, null=True, blank=True)
 
 
@@ -36,4 +36,4 @@ class Holding(models.Model):
         unique_together = ('user', 'ticker')
 
     def __str__(self):
-        return f"{self.user.username} - {self.shares}x {self.ticker}"
+        return f"{self.user.username} - {self.shares_amnt}x {self.ticker}"
