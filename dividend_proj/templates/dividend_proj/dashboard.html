@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dividend Tracker Dashboard</title>
+</head>
+<body>
+        <h1>My Portfolio</h1>
+
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>Ticker</th>
+                    <th>Shares</th>
+                    <th>Dividend Reinvestment Plan (DRIP) Active</th>
+                    <th>Dividend Yield</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for holding in holdings %}
+                <tr>
+                    <td>{{ holding.ticker }}</td>
+                    <td>{{ holding.shares }}</td>
+                    <td>{{ holding.auto_reinvest }}</td>
+                    <td>{{ market_data.dividend_yield }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="3">No holdings yet.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+</body>
+</html>
