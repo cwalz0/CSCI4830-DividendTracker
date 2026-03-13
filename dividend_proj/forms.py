@@ -7,3 +7,7 @@ class HoldingForm(forms.ModelForm):
         model = Holding
         #fields users type in
         fields = ['ticker', 'shares_amnt', 'auto_reinvest']
+
+        labels = ['ticker': 'Stock Ticker',
+                  'shares_amnt': 'Number of Shares',
+                  'auto_reinvest': 'Reinvest Dividends (DRIP)?']
