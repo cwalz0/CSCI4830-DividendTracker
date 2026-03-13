@@ -4,13 +4,18 @@ from django.contrib.auth.models import User
 
 class DividendData(models.Model):
     #local storage for 3rd party api
-    #update after 24hrs
     ticker = models.CharField(max_length=10)
+    name = models.CharField(max_length=100, default="Unknown")
     dividend_yield = models.DecimalField(max_digits=7, decimal_places=4, null=True, blank=True)
     dividend_per_share = models.DecimalField(max_digits=10, decimal_places=4, null=True, blank=True)
-    payout_frequency = models.CharField(max_length=20, null=True, blank=True) # quarterly / monthly
+
+
+
+    #TODO
+    payout_frequency = models.CharField(max_length=20, null=True, blank=True) 
     next_payout = models.DateField(null=True, blank=True)
     last_updated = models.DateTimeField(auto_now=True) #tracks last time fetched
+    
 
     class Meta:
         # This tells the Django Admin exactly how to spell the plural version

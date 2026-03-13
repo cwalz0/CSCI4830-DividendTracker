@@ -4,12 +4,57 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dividend Tracker Dashboard</title>
+    <style>
+        body {
+            text-align: center;
+            font-family: Verdana, sans-serif;
+            margin-top: 40px;
+            background-color: #d4edda;
+        }
+
+        h1 { margin-bottom: 5px;}
+        h2 { margin-bottom: 25px;}
+        
+        form p { 
+            margin-bottom: 15px; 
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        form label {
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        button {
+            padding: 8px 16px;
+            margin-bottom: 40px; 
+            cursor: pointer;
+        }
+
+        table {
+            margin: 0 auto;
+            border-collapse: collapse;
+            width: 80%;
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: center;
+            border: 1px solid #518659c9;
+        }
+
+        th {
+            background-color: #00000033;
+        }
+    </style>
     
 </head>
 <body>
         <h1>My Portfolio</h1>
 
-        <h2>Add a new Holding</h2>
+        <h3>Track a New Dividend</h2>
 
         <form method ="POST">
             {% csrf_token %}
@@ -17,12 +62,13 @@
 
             <button type="submit">Add Stock</button>
         </form>
-        <hr> <table border="1">
+        <table border="1">
             <thead>
                 <tr>
+                    <th>Name</th>
                     <th>Ticker</th>
                     <th>Shares</th>
-                    <th>Dividend Reinvestment Plan (DRIP) Active</th>
+                    <th>DRIP</th>
                     <th>Dividend / Share</th>
                     <th>Dividend Yield</th>
                     <th>Estimated Annual Income</th>
@@ -31,9 +77,15 @@
             <tbody>
                 {% for holding in holdings %}
                 <tr>
-                    <td>{{ holding.ticker }}</td>
+                    <td>{{ holding.market_data.name  }}</td>
+                    <td>{{ holding.market_data.ticker }}</td>
                     <td>{{ holding.shares_amnt }}</td>
-                    <td>{{ holding.auto_reinvest }}</td>
+                    <td>{% if holding.auto_reinvest %} 
+                        ✅
+                        {% else %}
+                        ❌
+                        {% endif %}
+                    </td>
                     <td>${{ holding.market_data.dividend_per_share }}</td>
                     <td>{{ holding.market_data.dividend_yield|floatformat:2|default:"0.00" }}</td>
 

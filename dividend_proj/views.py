@@ -8,8 +8,7 @@ from decimal import Decimal
 # Create your views here.
 
 def dashboard(request):
-    #just grabbing first user for due date
-    #user_holdings = Holding.objects.filter(user=request.user)
+    #just creating a single user account for assignment
     current_user = User.objects.first()
 
     if request.method == 'POST':
@@ -22,24 +21,27 @@ def dashboard(request):
 
             if created:
                 stock = yf.Ticker(ticker_symbol)
+                name = stock.info.get('shortName', 'NA')
                 div_yield = stock.info.get('dividendYield', 0)
                 div_rate = stock.info.get('dividendRate', 0)
 
+                market_data.name = name
                 market_data.dividend_yield = Decimal(str(div_yield)) if div_yield else Decimal('0.00')
                 market_data.dividend_per_share = Decimal(str(div_rate)) if div_rate else Decimal('0.00')
                 market_data.save()
 
 
-                existing_holding = Holding.objects.filter(user=current_user, ticker=ticker_symbol).first()
+            #if theres already shares owned, add new shares to total
+            existing_holding = Holding.objects.filter(user=current_user, ticker=ticker_symbol).first()
 
-                if existing_holding:
-                    existing_holding.shares_amnt += form.cleaned_data['shares_amnt']
-                    existing_holding.save()
-                else:
-                    new_holding = form.save(commit=False)
-                    new_holding.user = current_user
-                    new_holding.market_data = market_data
-                    new_holding.save()
+            if existing_holding:
+                existing_holding.shares_amnt += form.cleaned_data['shares_amnt']
+                existing_holding.save()
+            else:
+                new_holding = form.save(commit=False)
+                new_holding.user = current_user
+                new_holding.market_data = market_data
+                new_holding.save()
 
             return redirect('dashboard')
     else:
