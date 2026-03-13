@@ -1,6 +1,6 @@
 # CSCI4830 DividendTracker
 
-*admin user:*
-admin
-*admin password:*
+*admin user:*<br>
+admin<br>
+*admin password:*<br>
 adminpassword
